@@ -1,0 +1,20 @@
+{
+  "name": "04_aurelia",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Ian Corne <ian.corne.be@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/icorne/fee.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.5.0"
+  }
+}

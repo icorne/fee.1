@@ -1,0 +1,35 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="./todo-list-item.html">
+<dom-module id="todo-list">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+        </style>
+        <form>
+            <input value="{{newItemName::input}}">
+            <button type="button" on-click="addItem">Add</button>
+        </form>
+        <template is="dom-repeat" items="{{items}}">
+            <todo-list-item title="{{item.title}}" completed="{{item.completed}}">
+            </todo-list-item>
+        </template>
+    </template>
+    <script></script>
+</dom-module>
+<script>
+    Polymer({
+        is: 'todo-list',
+        properties: {
+            items: Array
+        },
+        addItem: function () {
+            this.push('items', {
+                title: this.newItemName,
+                completed: false
+            });
+            this.newItemName = undefined;
+        }
+    });
+</script>
