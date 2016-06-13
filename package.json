@@ -1,9 +1,11 @@
 {
-  "name": "fee.1",
-  "version": "1.0.0",
+  "name": "02_gulp",
+  "version": "0.0.1",
   "description": "",
-  "main": "my-first-script.js",
+  "main": "index.js",
   "scripts": {
+    "build": "gulp",
+    "app": "node dist/my-first-script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
