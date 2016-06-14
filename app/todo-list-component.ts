@@ -1,18 +1,37 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
+import {HTTP_PROVIDERS} from 'angular2/http';
 import {TodoListItemComponent} from './todo-list-item-component';
 import {TodoListItem} from './todo-list-item';
+import {TodoListItemsService} from './todo-list-service';
 
 @Component({
     selector: 'todo-list',
-    inputs: ['items'],
     templateUrl: './app/todo-list.html',
-    directives: [TodoListItemComponent]
+    directives: [TodoListItemComponent],
+    providers: [HTTP_PROVIDERS, TodoListItemsService]
 })
-export class TodoListComponent {
-    public items: Array<TodoListItem>;
-    public newItemName: string;
+export class TodoListComponent implements OnInit {
+    public todoItems:Array<TodoListItem>;
+    public newItemName:string;
+
+    constructor(private itemsService:TodoListItemsService) {
+    };
+
     onSubmit() {
-        this.items.push(new TodoListItem(this.newItemName));
-        this.newItemName = undefined;
+        this.itemsService.createItem(this.newItemName).subscribe((newItem) => {
+            this.todoItems.push(newItem);
+            this.newItemName = undefined;
+        });
     }
-};
+
+    ngOnInit():any {
+        this.itemsService.getItems().subscribe(
+            (items:any) => {
+                this.todoItems = items._embedded.items;
+            }, (error) => {
+                console.error(error);
+            }
+        );
+    }
+}
+;

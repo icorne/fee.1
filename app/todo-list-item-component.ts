@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {TodoListItem} from './todo-list-item';
+import {TodoListItemsService} from './todo-list-service';
 
 @Component({
     selector: 'todo-list-item',
@@ -9,4 +10,10 @@ import {TodoListItem} from './todo-list-item';
 })
 export class TodoListItemComponent {
     public item: TodoListItem;
+
+    constructor(private itemsService : TodoListItemsService) {};
+    onClick(){
+        this.item.completed = !this.item.completed;
+        this.itemsService.updateItem(this.item);
+    }
 };
