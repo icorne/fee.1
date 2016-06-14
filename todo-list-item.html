@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="todo-list-item">
     <template>
         <style>
@@ -9,8 +10,14 @@
                 text-decoration: line-through;
             }
         </style>
+        <iron-ajax
+                id="UpdateItem"
+                method="PUT"
+                content-type="application/json"
+                handle-as="json">
+        </iron-ajax>
         <div>
-            <input type="checkbox" checked="{{completed::change}}"> [[title]]
+            <input type="checkbox" checked="{{completed::change}}" on-change="onCompletedToggle"> [[title]]
         </div>
     </template>
     <script></script>
@@ -26,7 +33,15 @@
                 value: false,
                 notify: true,
                 reflectToAttribute: true
-            }
+            },
+            uri: String
+        },
+        onCompletedToggle: function(){
+            this.$.UpdateItem.body = {
+                "completed": !this.completed
+            };
+            this.$.UpdateItem.url = this.uri;
+            this.$.UpdateItem.generateRequest();
         }
     });
 </script>

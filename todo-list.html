@@ -1,4 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="./todo-list-item.html">
 <dom-module id="todo-list">
     <template>
@@ -7,12 +8,25 @@
                 display: block
             }
         </style>
+        <iron-ajax
+                id="GetItems"
+                auto
+                url="http://localhost:1337/item"
+                handle-as="json"
+                on-response="onItemsFetched"></iron-ajax>
+        <iron-ajax
+                id="PostItem"
+                url="http://localhost:1337/item"
+                method="POST"
+                content-type="application/json"
+                handle-as="json"
+                on-response="onItemCreated"></iron-ajax>
         <form>
             <input value="{{newItemName::input}}">
             <button type="button" on-click="addItem">Add</button>
         </form>
         <template is="dom-repeat" items="{{items}}">
-            <todo-list-item title="{{item.title}}" completed="{{item.completed}}">
+            <todo-list-item title="{{item.title}}" completed="{{item.completed}}" uri="{{item._links.self}}">
             </todo-list-item>
         </template>
     </template>
@@ -25,10 +39,16 @@
             items: Array
         },
         addItem: function () {
-            this.push('items', {
-                title: this.newItemName,
-                completed: false
-            });
+            this.$.PostItem.body = {
+                "title": this.newItemName
+            };
+            this.$.PostItem.generateRequest();
+        },
+        onItemsFetched: function(request){
+            this.items = request.detail.response._embedded.items;
+        },
+        onItemCreated: function(request){
+            this.push('items', request.detail.response);
             this.newItemName = undefined;
         }
     });
