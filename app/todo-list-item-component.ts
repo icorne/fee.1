@@ -6,7 +6,7 @@ import {TodoListItemsService} from './todo-list-service';
     selector: 'todo-list-item',
     inputs: ['item'],
     templateUrl: './app/todo-list-item.html',
-    styleUrls: ['./app/todo-list-item.css']
+    styleUrls: ['./dist/todo-list-item.css']
 })
 export class TodoListItemComponent {
     public item: TodoListItem;

@@ -1,8 +1,11 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const browserSync = require ('browser-sync');
+const sass = require('gulp-sass');
 
-gulp.task('serve', ['ts'], function(done) {
+const distDestination = './dist/';
+
+gulp.task('serve', ['sass', 'ts'], function(done) {
     browserSync({
         open: false,
         port: 9000,
@@ -15,8 +18,10 @@ gulp.task('serve', ['ts'], function(done) {
         }
     }, done);
     gulp.watch('app/*.ts', ['ts']);
+    gulp.watch('app/*.scss', ['sass']);
     gulp.watch("app/*.html").on('change', browserSync.reload);
-    gulp.watch("app/*.css").on('change', browserSync.reload);
+    gulp.watch("dist/*.js").on('change', browserSync.reload);
+    gulp.watch("dist/*.css").on('change', browserSync.reload);
 });
 
 gulp.task('ts', function(){
@@ -27,7 +32,16 @@ gulp.task('ts', function(){
             experimentalDecorators: true,
             emitDecoratorMetadata: true
         }))
-        .pipe(gulp.dest('./dist/'))
+        .pipe(gulp.dest(distDestination))
         .pipe(browserSync.stream());
 });
+
+
+gulp.task('sass', function () {
+    return gulp.src('app/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest(distDestination));
+});
+
+
 gulp.task('default', ['serve']);
