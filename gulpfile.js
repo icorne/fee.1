@@ -1,8 +1,19 @@
-const gulp = require('gulp');
-const ts = require('gulp-typescript');
+var gulp = require('gulp');
+var Server = require('karma').Server;
 
-gulp.task('default', () => {
-    gulp.src('./src/*.ts')
-        .pipe(ts())
-        .pipe(gulp.dest('./dist'));
+gulp.task('test', function (done) {
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+
 });
+
+gulp.task('tdd', function (done) {
+
+    new Server({
+        configFile: __dirname + '/karma.conf.js'
+    }, done).start();
+
+});
+gulp.task('default', ['tdd']);

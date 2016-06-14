@@ -1,16 +1,7 @@
-import * as MyOtherScript from './my-other-script';
+function add(a, b) {
+    return a + b;
+}
 
-import sayHelloWorld from './my-other-script'
-
-import {screamHelloWorld, default as sayHelloWorldAlias} from './my-other-script';
-
-
-sayHelloWorld();
-
-MyOtherScript['default']();
-
-sayHelloWorldAlias();
-
-screamHelloWorld();
-
-MyOtherScript.screamHelloWorld();
+function reverseAdd(a, b) {
+    return b + a;
+}
